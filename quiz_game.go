@@ -46,13 +46,6 @@ func main() {
 
 	timer := time.NewTimer(time.Duration(*tl) * time.Second)
 	probs := linesToProoblems(lines)
-
-	mainQuiz(probs, *timer)
-
-
-}
-
-func mainQuiz(probs []problem, timer time.Timer) {
 	score := 0
 	for idx, problem := range probs {
 		fmt.Printf("Quiz question #%d: %s = ", idx + 1, problem.question)
@@ -64,18 +57,18 @@ func mainQuiz(probs []problem, timer time.Timer) {
 		}()
 		select {
 		case <-timer.C:
-			fmt.Printf("you ran out ouf time and scored %d", score)
+			fmt.Printf("\nyou ran out ouf time and scored %d", score)
 			return
 		case userAnswer := <-ansChan:
 			if userAnswer == problem.answer {
 				score++
 			}
-		default:
-			return
 		}
 	}
-	fmt.Printf("\nyou scored %d out of %d", score, len(probs))
+	fmt.Printf("you scored %d out of %d", score, len(probs))
 }
+
+
 
 func exit(msg string) {
 	fmt.Println(msg)
